@@ -13,7 +13,6 @@ function geoFindMe() {
     var longitude = position.coords.longitude;
 
     output.innerHTML = '<p>Latitude is ' + latitude + '° <br>Longitude is ' + longitude + '°</p>';
-    // getLocationName(latitude, longitude);
     getCurrentWeather(latitude, longitude);
 
     var img = new Image();
@@ -31,50 +30,6 @@ function geoFindMe() {
   navigator.geolocation.getCurrentPosition(success, error);
 }
 
-function getLocationName(lat, long){
-    console.log("location this and that!");
-    var url = 'http://locationiq.org/v1/reverse.php?format=json&key=a70dcc8547c530a5fb71&lat='+lat+'&lon='+long+'&zoom=16';
-    //var url2 = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + long + "&key=" + googleApiKey
-    
-    var urlArgs = [
-        "latlng=" + lat + "," + long,
-        "key=" + googleApiKey
-    ];
-    var url = "https://maps.googleapis.com/maps/api/geocode/json?" + urlArgs.join("&");
-    console.log("complete url", url);
-
-    $.getJSON(
-        url,
-        function(data){
-            // console.log("fuck me!", data.display_name, data.address);
-            var address = data.results[0].formatted_address;
-            console.log("google reverse geolocation!", address);
-            $("#test").html("hello "+ address);
-        }
-    );
-}
-
-// function getLocationName(lat, long){
-//      $.ajax({
-//           url: 'https://maps.googleapis.com/maps/api/geocode/json?',
-//           data: 'latlng='
-//           type: 'GET',
-//           dataType: 'json',
-//           success: function(data) { 
-//               alert('hello!'); 
-//               var address = data.results[0].formatted_address;
-//             console.log("google reverse geolocation!", address);
-//             $("#test").html("hello "+ address);
-//             },
-//           error: function() { alert('boo!'); },
-//           beforeSend: function (xhr) {
-//         xhr.setRequestHeader('key', 'AIzaSyD7a6SZiDVeiksRF9hwc7-2A2JY5HF5KWI');
-//         xhr.setRequestHeader('latlng', lat+long);
-//       }
-//         });
-      
-// }
-
 function getCurrentWeather(lat, long){
     console.log("and the weather is!");
 
@@ -85,13 +40,15 @@ function getCurrentWeather(lat, long){
     var url = "http://api.apixu.com/v1/current.json?" + urlArgs.join("&");
     console.log("complete url", url);
 
-    $.getJSON({
+    $.getJSON(
         url,
         function(data){
+            alert("here i am this is me!")
             console.log("where am i!");
             var temp = data.temp_c;
+            // var temp = data.name;
             console.log("temp in centi", temp, "remaining temp data", data);
             $("#test").html("hello "+ temp);
         }
-    });
+    );
 }
