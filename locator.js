@@ -25,8 +25,8 @@ $( document ).ready(
 ); 
 
 function getCurrentWeather(lat, long){
-    var url = getWeatherApiURL(lat, long);
-    console.log("complete url", url);
+    var url = getWeatherApiURL(lat, long, "current");
+    // console.log("complete url", url);
 
     $.getJSON(
         url,
@@ -37,14 +37,15 @@ function getCurrentWeather(lat, long){
     );
 
     getLocationName(lat,long);
+    getExtendedWeather(lat,long);
 }
 
-function getWeatherApiURL(lat, long){
+function getWeatherApiURL(lat, long, weatherType){
     var urlArgs=[
         "key=" + "0326246174cb4404b38115224171803",
         "q=" +  lat + "," + long
     ]
-    return "http://api.apixu.com/v1/current.json?" + urlArgs.join("&");
+    return "http://api.apixu.com/v1/" + weatherType + ".json?" + urlArgs.join("&");
 }
 
 function populateOutput(data){
@@ -53,8 +54,8 @@ function populateOutput(data){
     var icon = location.condition.icon.replace("//", "http://");
     var condition = location.condition.text;
 
-    console.log("address ", icon, "icon ", location.condition.icon);
-    console.log("temp in centi", temp, "remaining temp data", data);
+    // console.log("address ", icon, "icon ", location.condition.icon);
+    // console.log("temp in centi", temp, "remaining temp data", data);
 
     $("#header").html("<h1>" + data.location.name + "</h1>" +
         "<h6 class=sm>" + condition + "</h6>"
@@ -74,14 +75,48 @@ function getLocationName(lat, long){
         "key=" + googleApiKey
     ];
     var url = "https://maps.googleapis.com/maps/api/geocode/json?" + urlArgs.join("&");
-    console.log("complete url", url);
+    // console.log("complete url", url);
 
     $.getJSON(
         url,
         function(data){
             var address = data.results[0].formatted_address;
-            console.log("google reverse geolocation!", address, data);
-            $("#address").html("Your approximate address"+ "<p>" + address + "</p>");
+            // console.log("google reverse geolocation!", address, data);
+            // $("#address").html("Your approximate address"+ "<p>" + address + "</p>");
         }
     );
+}
+
+function getExtendedWeather(lat, long){
+    var url = getWeatherApiURL(lat, long, "forecast") + "&days=10";
+
+    // console.log("complete url", url);
+
+    $.getJSON(
+        url,
+        function(data){
+            // console.log("this is the extended forcast",data);
+            extendedWeatherTable(data);
+        }
+    );
+}
+
+function extendedWeatherTable(data){
+    var daysDetail = data.forecast.forecastday;
+    
+
+  var dataHolder = [];
+  for(i in daysDetail){
+      console.log(daysDetail[i]);
+      dataHolder.push("<div>") 
+      dataHolder.push("Date: " + moment(daysDetail[i].date).format("ddd Do MMM YY"));
+      dataHolder.push(" Max temp: " + daysDetail[i].day.maxtemp_c);
+      dataHolder.push(" Min temp: " + daysDetail[i].day.mintemp_c);
+      dataHolder.push(" Average temp: " + daysDetail[i].day.avgtemp_c);
+      dataHolder.push(" Average humidity: " + daysDetail[i].day.avghumidity);
+      dataHolder.push(" Sunrise: " + daysDetail[i].astro.sunrise);
+      dataHolder.push(" Sunset: " + daysDetail[i].astro.sunset);
+      dataHolder.push("</div>");
+  }
+  document.getElementById("extended").innerHTML = dataHolder;
 }
