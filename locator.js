@@ -108,15 +108,26 @@ function extendedWeatherTable(data){
   var dataHolder = [];
   for(i in daysDetail){
       console.log(daysDetail[i]);
-      dataHolder.push("<div>") 
-      dataHolder.push("Date: " + moment(daysDetail[i].date).format("ddd Do MMM YY"));
-      dataHolder.push(" Max temp: " + daysDetail[i].day.maxtemp_c);
-      dataHolder.push(" Min temp: " + daysDetail[i].day.mintemp_c);
-      dataHolder.push(" Average temp: " + daysDetail[i].day.avgtemp_c);
-      dataHolder.push(" Average humidity: " + daysDetail[i].day.avghumidity);
-      dataHolder.push(" Sunrise: " + daysDetail[i].astro.sunrise);
-      dataHolder.push(" Sunset: " + daysDetail[i].astro.sunset);
-      dataHolder.push("</div>");
+      for(hour in daysDetail[i].hour){
+          var hourProp = daysDetail[i].hour[hour];
+          console.log("hour breaks: " + hourProp);
+          dataHolder.push("<div>");
+          var prop = Object.keys(hourProp);
+          dataHolder.push(prop);
+          dataHolder.push(hourProp.prop);
+          dataHolder.push("</div>");
+
+          console.log("properties", hourProp, prop, hourProp[hour]);
+      }
+    //   dataHolder.push("<div>") 
+    //   dataHolder.push("Date: " + moment(daysDetail[i].date).format("ddd Do MMM YY"));
+    //   dataHolder.push(" Max temp: " + daysDetail[i].day.maxtemp_c);
+    //   dataHolder.push(" Min temp: " + daysDetail[i].day.mintemp_c);
+    //   dataHolder.push(" Average temp: " + daysDetail[i].day.avgtemp_c);
+    //   dataHolder.push(" Average humidity: " + daysDetail[i].day.avghumidity);
+    //   dataHolder.push(" Sunrise: " + daysDetail[i].astro.sunrise);
+    //   dataHolder.push(" Sunset: " + daysDetail[i].astro.sunset);
+    //   dataHolder.push("</div>");
   }
   document.getElementById("extended").innerHTML = dataHolder;
 }
