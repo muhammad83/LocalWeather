@@ -106,19 +106,31 @@ function extendedWeatherTable(data){
     
 
   var dataHolder = [];
-  for(i in daysDetail){
-      console.log(daysDetail[i]);
-      for(hour in daysDetail[i].hour){
-          var hourProp = daysDetail[i].hour[hour];
-          console.log("hour breaks: " + hourProp);
-          dataHolder.push("<div>");
-          var prop = Object.keys(hourProp);
-          dataHolder.push(prop);
-          dataHolder.push(hourProp.prop);
-          dataHolder.push("</div>");
+  var dataPropertyHolder = [];
 
-          console.log("properties", hourProp, prop, hourProp[hour]);
-      }
+  var apiProp = Object.keys(daysDetail[0].hour[0]);
+
+  for(index in apiProp){
+              dataPropertyHolder.push(apiProp[index]);
+              console.log(`props ${apiProp[index]}`);
+          }
+
+
+//   for(i in daysDetail){
+//       console.log(daysDetail[i]);
+//       for(hour in daysDetail[i].hour){
+//           var hourProp = daysDetail[i].hour[hour];
+//           console.log("hour breaks: " + hourProp);
+//           dataHolder.push("<div>");
+//           var props = Object.keys(hourProp);
+//           dataHolder.push(props);
+//           dataHolder.push(hourProp.props);
+//           dataHolder.push("</div>");
+
+//           console.log("properties", hourProp, props, hourProp[hour]);
+
+          
+//       }
     //   dataHolder.push("<div>") 
     //   dataHolder.push("Date: " + moment(daysDetail[i].date).format("ddd Do MMM YY"));
     //   dataHolder.push(" Max temp: " + daysDetail[i].day.maxtemp_c);
@@ -128,6 +140,6 @@ function extendedWeatherTable(data){
     //   dataHolder.push(" Sunrise: " + daysDetail[i].astro.sunrise);
     //   dataHolder.push(" Sunset: " + daysDetail[i].astro.sunset);
     //   dataHolder.push("</div>");
-  }
+//   }
   document.getElementById("extended").innerHTML = dataHolder;
 }
