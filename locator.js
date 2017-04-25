@@ -58,6 +58,7 @@ function populateOutput(data){
     // console.log("temp in centi", temp, "remaining temp data", data);
 
     $("#header").html("<h1>" + data.location.name + "</h1>" +
+        "<h2 class=sm> Now </h2>" +
         "<h6 class=sm>" + condition + "</h6>"
     );
     $("#out").html(
@@ -112,34 +113,46 @@ function extendedWeatherTable(data){
 
   for(index in apiProp){
               dataPropertyHolder.push(apiProp[index]);
-              console.log(`props ${apiProp[index]}`);
+            //   console.log(`props ${apiProp[index]}`);
           }
 
 
-//   for(i in daysDetail){
-//       console.log(daysDetail[i]);
-//       for(hour in daysDetail[i].hour){
-//           var hourProp = daysDetail[i].hour[hour];
-//           console.log("hour breaks: " + hourProp);
-//           dataHolder.push("<div>");
-//           var props = Object.keys(hourProp);
-//           dataHolder.push(props);
-//           dataHolder.push(hourProp.props);
-//           dataHolder.push("</div>");
+  for(i in daysDetail){
+      console.log(daysDetail[i]);
+    //   for(hour in daysDetail[i].hour){
+    //       var hourProp = daysDetail[i].hour[hour];
+    //       console.log("hour breaks: " + hourProp);
+    //     //   dataHolder.push("<div>");
+    //     //   var props = Object.keys(hourProp);
+    //     //   dataHolder.push(props);
+    //     //   dataHolder.push(hourProp.props);
+    //     //   dataHolder.push("</div>");
 
-//           console.log("properties", hourProp, props, hourProp[hour]);
+    //     //   console.log("properties", hourProp, props, hourProp[hour]);
 
           
-//       }
-    //   dataHolder.push("<div>") 
-    //   dataHolder.push("Date: " + moment(daysDetail[i].date).format("ddd Do MMM YY"));
-    //   dataHolder.push(" Max temp: " + daysDetail[i].day.maxtemp_c);
-    //   dataHolder.push(" Min temp: " + daysDetail[i].day.mintemp_c);
-    //   dataHolder.push(" Average temp: " + daysDetail[i].day.avgtemp_c);
-    //   dataHolder.push(" Average humidity: " + daysDetail[i].day.avghumidity);
-    //   dataHolder.push(" Sunrise: " + daysDetail[i].astro.sunrise);
-    //   dataHolder.push(" Sunset: " + daysDetail[i].astro.sunset);
-    //   dataHolder.push("</div>");
-//   }
-  document.getElementById("extended").innerHTML = dataHolder;
+    //   }
+      dataHolder.push("<div>") 
+      dataHolder.push("<h2>" + moment(daysDetail[i].date).format("ddd Do MMM YY")+"</h2>");
+      var icon = daysDetail[i].day.condition.icon.replace("//", "http://");
+      var condition = daysDetail[i].day.condition.text;
+      dataHolder.push("<h6>" + condition + "</h6>");
+      dataHolder.push("<p><img src=\"" + icon + "\" alt=\"" + condition + "\"> </p>");
+      dataHolder.push("<h2>" + daysDetail[i].day.avgtemp_c + "&deg;C </h2>");
+      dataHolder.push("<p> Max temp: " + daysDetail[i].day.maxtemp_c + "&deg;C </p>");
+      dataHolder.push("<p> Min temp: " + daysDetail[i].day.mintemp_c + "&deg;C </p>");
+      dataHolder.push("<p> Average humidity: " + daysDetail[i].day.avghumidity + "%</p>");
+      dataHolder.push("<p> Sunrise: " + daysDetail[i].astro.sunrise + "</p>");
+      dataHolder.push("<p> Sunset: " + daysDetail[i].astro.sunset + "</p");
+      dataHolder.push("</div>");
+  
+}
+//   document.getElementById("extended").innerHTML = dataHolder;
+
+var result="";
+for(i= dataHolder.length-1; i>=0;i--){
+    result=dataHolder[i]+result;
+}
+
+document.getElementById("extended").innerHTML=result;
 }
