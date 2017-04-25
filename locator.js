@@ -45,13 +45,13 @@ function getWeatherApiURL(lat, long, weatherType){
         "key=" + "0326246174cb4404b38115224171803",
         "q=" +  lat + "," + long
     ]
-    return "http://api.apixu.com/v1/" + weatherType + ".json?" + urlArgs.join("&");
+    return "https://api.apixu.com/v1/" + weatherType + ".json?" + urlArgs.join("&");
 }
 
 function populateOutput(data){
     var location = data.current;
     var temp = location.temp_c;
-    var icon = location.condition.icon.replace("//", "http://");
+    var icon = location.condition.icon.replace("//", "https://");
     var condition = location.condition.text;
 
     // console.log("address ", icon, "icon ", location.condition.icon);
@@ -134,7 +134,7 @@ function extendedWeatherTable(data){
     //   }
       dataHolder.push("<div>") 
       dataHolder.push("<h2>" + moment(daysDetail[i].date).format("ddd Do MMM YY")+"</h2>");
-      var icon = daysDetail[i].day.condition.icon.replace("//", "http://");
+      var icon = daysDetail[i].day.condition.icon.replace("//", "https://");
       var condition = daysDetail[i].day.condition.text;
       dataHolder.push("<h6>" + condition + "</h6>");
       dataHolder.push("<p><img src=\"" + icon + "\" alt=\"" + condition + "\"> </p>");
